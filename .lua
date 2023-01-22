@@ -1,5 +1,5 @@
 --  Arsenal
--- Credit ·˚ ༘ゆきお˚₊· ͟͟͞➳❥ ( Yukio )
+-- Credit ゆい ˏˋ°•*⁀➷
 
 
 

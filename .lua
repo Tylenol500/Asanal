@@ -19,66 +19,19 @@ local UserInputService = game:GetService("UserInputService")
 local target = false
 local RunService = game:GetService("RunService")
  
-
+local features = {
+silentaim = true;
+fov = 500;
+}
 
 Tab1:Toggle("Silent Aim",true,function(ATF)
-    _G.Silentaim = ATF
+	silentaim = ATF
 end)
 
 Tab1:Slider("FOV",1,1000,200,function(value)
-    _G.Fov = value
+    _G.Distance = value
 end)
 
-
-
-Tab1:Toggle("ESP Players",false,function(ATF)
-	_G.ESP = ATF
-end)
-
-
-Number = math.random(1,1000000)
-        function UpdatePlayer()
-            for i,v in pairs(game:GetService("Players"):GetChildren()) do
-                pcall(function()
-                    if v.Character then
-                        if _G.ESP then
-                            if v.Character.Head and not v.Character.Head:FindFirstChild("PlayerESP"..Number) then
-                                local Bb = Instance.new("BillboardGui", v.Character.Head)
-                                Bb.Name = "PlayerESP"..Number
-                                Bb.ExtentsOffset = Vector3.new(0, 1, 0)
-                                Bb.Size = UDim2.new(1, 200, 1, 30)
-                                Bb.Adornee = v.Character.Head
-                                Bb.AlwaysOnTop = true
-                                local Textlb = Instance.new("TextLabel", Bb)
-                                Textlb.Font = "GothamBold"
-                                Textlb.FontSize = "Size14"
-                                Textlb.Text = v.Name.."\n"..math.round((v.Character.Head.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3).." m."
-                                Textlb.Size = UDim2.new(1,0,1,0)
-                                Textlb.BackgroundTransparency = 1
-                                Textlb.TextStrokeTransparency = 0.5
-                                if v.Team == game:GetService("Players").LocalPlayer.Team then
-                                    Textlb.TextColor3 = Color3.new(0, 255, 0)
-                                else
-                                    Textlb.TextColor3 = Color3.new(0, 0, 204)
-                                end
-                            else
-                                v.Character.Head["PlayerESP"..Number].TextLabel.Text = v.Name.."\n"..math.round((v.Character.Head.Position - game:GetService('Players').LocalPlayer.Character.HumanoidRootPart.Position).Magnitude/3).." m."
-                            end
-                        else
-                            if v.Character.Head:FindFirstChild("PlayerESP"..Number) then
-                                v.Character.Head:FindFirstChild("PlayerESP"..Number):Destroy()
-                            end
-                        end
-                    end
-                end)
-            end
-        end
-
-
-local features = {
-	silentaim = _G.Silentaim;
-	fov = _G.Fov;
-	}
 
 function getnearest()
 local nearestmagnitude = math.huge
@@ -151,39 +104,12 @@ for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
     end
 end
 
-Tab1:Toggle("Auto Kill All Players ( Team )",false,function(ATF)
+Tab1:Toggle("Auto Kill All Player ( Team )",false,function(ATF)
 	_G.Kill_AllT = ATF
 end)
 
-Tab1:Toggle("Auto Kill All Players ( Solo )",false,function(ATF)
+Tab1:Toggle("Auto Kill All Player ( Solo )",false,function(ATF)
 	_G.Kill_AllS = ATF
-end)
-
-local rdropdwon = Tab1:Dropdown("Select Weapon",TOOLS,function(t)
-    SelectedWeapon = t
-end)
-function equip()
-    pcall(function()
-        for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-            if v.Name == SelectedWeapon then
-                game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
-            end
-        end
-    end)
-end
-
-Tab1:Button("Refresh Weapon",function()
-    rdropdwon:Clear()
-    for i,v in pairs(game.Players.LocalPlayer.Backpack:GetChildren()) do
-        if v:IsA("Tool") then
-            rdropdwon:Add(v.Name)
-        end
-    end
-    for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do
-        if v:IsA("Tool") then
-            rdropdwon:Add(v.Name)
-        end
-    end
 end)
 
 
@@ -209,11 +135,9 @@ spawn(function()
 					for i,y in pairs(game:GetService("Players"):GetChildren()) do
 						for i,x in pairs(game:GetService("Workspace"):GetChildren()) do
 							if y.Name == x.Name and y.Team ~= game.Players.LocalPlayer.Team and (x.HumanoidRootPart.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 200  then
-							    if v.Humanoid.Health > 0 then
-								   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = x.HumanoidRootPart.CFrame * CFrame.new(0,_G.Distance_Y,_G.Distance_Z)
-								   game:GetService("VirtualUser"):CaptureController()
-								   game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
-								end
+								game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = x.HumanoidRootPart.CFrame * CFrame.new(0,_G.Distance_Y,_G.Distance_Z)
+								game:GetService("VirtualUser"):CaptureController()
+								game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 							end
 						end
 					end
@@ -233,11 +157,9 @@ spawn(function()
 					for i,y in pairs(game:GetService("Players"):GetChildren()) do
 						for i,x in pairs(game:GetService("Workspace"):GetChildren()) do
 							if y.Name == x.Name and (x.HumanoidRootPart.Position - game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.Position).magnitude <= 200  then
-								if v.Humanoid.Health > 0 then
-								   game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = x.HumanoidRootPart.CFrame * CFrame.new(0,_G.Distance_Y,_G.Distance_Z)
-								   game:GetService("VirtualUser"):CaptureController()
-								   game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
-								end
+								game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = x.HumanoidRootPart.CFrame * CFrame.new(0,_G.Distance_Y,_G.Distance_Z)
+								game:GetService("VirtualUser"):CaptureController()
+								game:GetService("VirtualUser"):Button1Down(Vector2.new(1280, 670),workspace.CurrentCamera.CFrame)
 							end
 						end
 					end
@@ -246,5 +168,6 @@ spawn(function()
 		end
 	end
 end)
+
 
 
